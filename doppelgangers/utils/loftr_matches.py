@@ -88,6 +88,6 @@ def save_loftr_matches(data_path, pair_path, output_path, model_weight_path="wei
             mkpts1 = batch['mkpts1_f'].cpu().numpy()
             mconf = batch['mconf'].cpu().numpy()
 
-            np.save(output_path+'loftr_match/%d.npy'%idx, {"kpt0": mkpts0, "kpt1": mkpts1, "conf": mconf})
+            np.save(os.path.join(output_path, f'{idx}.npy'), {"kpt0": mkpts0, "kpt1": mkpts1, "conf": mconf})
 
 
