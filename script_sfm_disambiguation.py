@@ -38,6 +38,8 @@ def get_args():
     # output setting
     parser.add_argument('--output_path', type=str,
                         help='path to output results')
+    parser.add_argument('--loftr_match_path', type=str,
+                        help='location of loftr features, skipping calculation if exists')
 
     # Doppelgangers threshold setting
     parser.add_argument('--threshold', default=0.8, type=float,
@@ -174,7 +176,7 @@ def main_worker(gpu, ngpus_per_node, cfg, args):
 
     # extracting loftr matches
     print("Extracting loftr matches")
-    loftr_matches_path = os.path.join(args.output_path, 'loftr_match')
+    loftr_matches_path = args.loftr_match_path or os.path.join(args.output_path, 'loftr_match')
     os.makedirs(loftr_matches_path, exist_ok=True)
     pair_path = create_image_pair_list(args.database_path, args.output_path)
     save_loftr_matches(args.input_image_path, pair_path, args.output_path)
