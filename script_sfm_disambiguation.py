@@ -119,6 +119,11 @@ def doppelgangers_classifier(gpu, ngpus_per_node, cfg, args):
     multi_gpu = False
     strict = True
 
+    pair_prob_list_path = os.path.join(cfg.data.output_path, "pair_probability_list.npy")
+    if os.path.exists(pair_prob_list_path):
+        print("pair prob list found: skipping ")
+        return
+
     # initial dataset
     data_lib = importlib.import_module(cfg.data.type)
     loaders = data_lib.get_data_loaders(cfg.data)
@@ -161,7 +166,7 @@ def doppelgangers_classifier(gpu, ngpus_per_node, cfg, args):
     gt_list = np.array(gt_list).reshape(-1)
     pred_list = np.array(pred_list).reshape(-1)
     prob_list = np.array(prob_list).reshape(-1, 2)    
-    np.save(os.path.join(cfg.data.output_path, "pair_probability_list.npy"), {'pred': pred_list, 'gt': gt_list, 'prob': prob_list})
+    np.save(pair_prob_list_path, {'pred': pred_list, 'gt': gt_list, 'prob': prob_list})
     print("Test done.")
 
 
